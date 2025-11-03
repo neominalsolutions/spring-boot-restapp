@@ -2,6 +2,7 @@ package com.mertalptekin.springbootrestapp;
 
 import com.mertalptekin.springbootrestapp.springContext.commit.CommitService;
 import com.mertalptekin.springbootrestapp.springContext.commit.ICommit;
+import com.mertalptekin.springbootrestapp.springContext.custom.MyCustomBean;
 import com.mertalptekin.springbootrestapp.springContext.logger.DemoService;
 import com.mertalptekin.springbootrestapp.springContext.logger.ILogger;
 import org.springframework.boot.SpringApplication;
@@ -46,15 +47,16 @@ public class SpringBootRestappApplication {
         logger.log("Hello World");
 
         // Eğer Bean name kullanmıyorsak @Primary ile birincil bean tanımı yapılabilir.
-        ICommit commit = context.getBean("cacheCommit",ICommit.class);
-        commit.commitChanges();
+        ICommit commit = context.getBean(ICommit.class);
+        commit.commitChanges(); // Primary olduğundan CacheCommit çalışır.
 
-
-        CommitService commitService = context.getBean("dbCommit", CommitService.class); // hatalı kod
-        commitService.save();
 
         CommitService commitService1 = context.getBean(CommitService.class);
-        commitService1.save();
+        commitService1.save(); // DbCommit çalışıtırdık.
+
+        // Custom Registration Bean Kullanımı
+        MyCustomBean myCustomBean = context.getBean(MyCustomBean.class);
+        System.out.println("customBean Def:" + myCustomBean.getName());
     }
 
 }
