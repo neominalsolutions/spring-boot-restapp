@@ -3,6 +3,7 @@ package com.mertalptekin.springbootrestapp;
 import com.mertalptekin.springbootrestapp.springContext.commit.CommitService;
 import com.mertalptekin.springbootrestapp.springContext.commit.ICommit;
 import com.mertalptekin.springbootrestapp.springContext.custom.MyCustomBean;
+import com.mertalptekin.springbootrestapp.springContext.custom.WebRequestBasedBean;
 import com.mertalptekin.springbootrestapp.springContext.logger.DemoService;
 import com.mertalptekin.springbootrestapp.springContext.logger.ILogger;
 import org.springframework.boot.SpringApplication;
@@ -57,6 +58,9 @@ public class SpringBootRestappApplication {
         // Custom Registration Bean Kullanımı
         MyCustomBean myCustomBean = context.getBean(MyCustomBean.class);
         System.out.println("customBean Def:" + myCustomBean.getName());
+
+
+
     }
 
 }
