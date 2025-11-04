@@ -24,6 +24,6 @@ public record CreateProductRequest(
         @NotNull(message = "Stock must not be null")
         @Positive(message = "Stock must be positive")
         @Min(value = 1, message = "Stock must be at least 0")
-        @Max(value = 10, message = "Stock must not exceed 10")
+        // @Max(value = 10, message = "Stock must not exceed 10")
         int stock) implements IProductRequest {
 }

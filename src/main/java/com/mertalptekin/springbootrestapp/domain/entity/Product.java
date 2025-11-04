@@ -3,6 +3,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -24,5 +25,7 @@ public class Product {
 
     @Column(name = "stock", nullable = false)
     private Integer stock;
+
+
 
 }
