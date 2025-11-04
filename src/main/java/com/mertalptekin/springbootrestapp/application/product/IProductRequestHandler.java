@@ -1,6 +1,7 @@
 package com.mertalptekin.springbootrestapp.application.product;
 
-public interface IProductRequestHandler<T extends IProductRequest> {
+// Port for handling different types of product requests
+public interface IProductRequestHandler<TReq extends IProductRequest, TRes extends IProductResponse> {
 
-    void handle(T request);
+    TRes handle(TReq request);
 }

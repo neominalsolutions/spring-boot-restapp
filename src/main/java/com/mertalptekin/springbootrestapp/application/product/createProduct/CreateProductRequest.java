@@ -5,7 +5,9 @@ import com.mertalptekin.springbootrestapp.application.product.IProductRequest;
 
 import java.math.BigDecimal;
 
-public record ProductCreateRequest (
+// Requestler immutable (değiştirilemez) olmalıdır. Bu nedenle record kullanıyoruz.
+
+public record CreateProductRequest(
         @JsonProperty("productName")
         String name,
         @JsonProperty("unitPrice")

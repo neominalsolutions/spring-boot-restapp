@@ -11,8 +11,9 @@ import org.springframework.stereotype.Component;
 // ProductService -> Create, UPDATE, DELETE Class düzeyinde bunların ayrılması OCP dir.
 // Her bir Operasyonun kendi koduna sahip olması sadece kendi sorumluluğunda olması SRP dir.
 
+// Hexagonal Mimariye göre CreateProductRequestHandler ise IProductRequestHandler Portundan implemente olan bir Adapter'dir.
 @Component
-public class CreateProductRequestHandler implements IProductRequestHandler<ProductCreateRequest> {
+public class CreateProductRequestHandler implements IProductRequestHandler<CreateProductRequest,CreateProductResponse> {
 
     private final IProductService productService;
     private final IEmailSender emailSender;
@@ -31,15 +32,23 @@ public class CreateProductRequestHandler implements IProductRequestHandler<Produ
     // İşlem sonrasında email gönderme işlemi de yapılır.
     // Use Case -> Ürün kaydı girdiliğinde benzer kategorideki ürünleri takip eden müşterilere email gönder.
     @Override
-    public void handle(ProductCreateRequest request) {
+    public CreateProductResponse handle(CreateProductRequest request) {
 
+        // dto to entity
         Product entity = new Product();
         BeanUtils.copyProperties(request, entity);
         // Bean kopyalama işlemi yapıldıktan sonra servise gönderiyoruz.
         this.productService.addProduct(entity); // Domain
         // email gönderme işlemi
         // Infra
+
         emailSender.sendEmail("test@test.com","Yeni Ürün Eklendi","Yeni ürün eklendi: " + entity.getName());
+
+        // entity to dto
+        CreateProductResponse response = new CreateProductResponse();
+        BeanUtils.copyProperties(entity, response);
+
+        return response;
 
     }
 

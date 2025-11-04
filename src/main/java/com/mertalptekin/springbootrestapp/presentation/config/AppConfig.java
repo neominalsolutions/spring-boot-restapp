@@ -1,4 +1,4 @@
-package com.mertalptekin.springbootrestapp;
+package com.mertalptekin.springbootrestapp.presentation.config;
 
 
 import com.mertalptekin.springbootrestapp._demo.springContext.logger.TextLogger;
