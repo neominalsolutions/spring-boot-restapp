@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -28,15 +29,25 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // web uygulamasında hangi endpointlere login oladan gireceğimiz yöneteceğiz.
         http.csrf(AbstractHttpConfigurer::disable); // Form istekleri www.urlencoded değil application/json bundan dolayı bu ayarı kapattık. Gelenek web uygulamalrındaki güvenlik ayarı.
-        http.cors(AbstractHttpConfigurer::disable);
-//        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // Rest servislerde kullanılan session modeli
+        // Bunu kaldırınca Post isteklerinde 403 hatası alırız. uygulama keser.
+
+        http.cors(AbstractHttpConfigurer::disable); // react gibi bir clientdan tetst etmeyeceğiz.
+
+        // H2 Console için frame options'ı devre dışı bırak
+        http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
+
+
+
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // Rest servislerde kullanılan session modeli
         http.authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                         .requestMatchers("/api/demo/**").permitAll()
                         .requestMatchers(("/api/auth/**")).permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated());
-        http.authenticationProvider(authenticationProvider);
+        http.authenticationProvider(authenticationProvider); // Kimlik doğrulama sağlayıcıyı ekliyoruz.
+
+        // JWT Filter ile jwt doğrulama yapacağız.
         http.addFilterBefore(authenticationFilter,
                 org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 

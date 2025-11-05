@@ -9,6 +9,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+// OncePerRequestFilter ile her istekde araya girip Authorization Header üzerindeki Bearer değerini okuyacağız.
+
+
 @Component
 public class AuthenticationFilter extends OncePerRequestFilter {
     @Override
