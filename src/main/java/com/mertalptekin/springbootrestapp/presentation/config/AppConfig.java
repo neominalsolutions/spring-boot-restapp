@@ -2,6 +2,7 @@ package com.mertalptekin.springbootrestapp.presentation.config;
 
 
 import com.mertalptekin.springbootrestapp._demo.springContext.logger.TextLogger;
+import com.mertalptekin.springbootrestapp.domain.service.CustomUserDetailService;
 import com.mertalptekin.springbootrestapp.infra.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,9 +24,11 @@ public class AppConfig {
     // IUserRepository bean'ini constructor injection ile alıyoruz.
     // Kullanıcı bilgilerini veritabanından çekmek için kullanacağız.
     private final IUserRepository userRepository;
+    private final CustomUserDetailService customUserDetailService;
 
-    public AppConfig(IUserRepository userRepository) {
+    public AppConfig(IUserRepository userRepository, CustomUserDetailService customUserDetailService) {
         this.userRepository = userRepository;
+        this.customUserDetailService = customUserDetailService;
     }
 
     @Bean(name = "getAppName1")
@@ -40,15 +43,20 @@ public class AppConfig {
     // Uygulamada oturum açmak için gerekli olan bean tanımlamaları yapıcaz.
 
     // UserDetailsService bean tanımı, kullanıcı bilgilerini yüklemek için kullanılır.
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        return new UserDetailsService() {
+//            @Override
+//            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//                return userRepository.findByUsername(username)
+//                        .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+//            }
+//        };
+//    }
+
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return userRepository.findByUsername(username)
-                        .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-            }
-        };
+        return customUserDetailService;
     }
 
     // Password encoder bean tanımı, şifreleri güvenli bir şekilde saklamak için kullanılır.

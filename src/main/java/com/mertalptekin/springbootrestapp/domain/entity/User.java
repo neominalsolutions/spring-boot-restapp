@@ -19,16 +19,19 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(unique = true, nullable = false)
     private String username;
+
     @Column(nullable = false)
     private String password; // şifre alanı, hashlenmiş şifre saklanmalı
+
 
     // UserDetails interface methods ile kullanıcıya rol tanımı verdik.
     // Role tablasu olurşturmak yerine buradan verdik.
