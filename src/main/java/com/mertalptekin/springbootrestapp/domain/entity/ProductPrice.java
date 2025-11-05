@@ -13,15 +13,15 @@ public class ProductPrice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @Column(name = "oldPrice", nullable = false)
+    @Column(name = "old_price", nullable = false)
     private BigDecimal oldPrice;
 
-    @Column(name = "newPrice", nullable = false)
+    @Column(name = "new_price", nullable = false)
     private BigDecimal newPrice;
 
-    @Column(name="changedAt", nullable = false, updatable = false)
+    @Column(name="changed_at", nullable = false)
     private LocalDateTime changedAt; // Fiyat değişim zamanını epoch formatında saklayabilir
 
     // EAGER, LEFT JOIN ile ilişkili veriyi hemen yükler
