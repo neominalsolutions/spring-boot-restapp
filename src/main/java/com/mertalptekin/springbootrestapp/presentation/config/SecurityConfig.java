@@ -15,9 +15,11 @@ public class SecurityConfig {
 
     // Kimlik Doğrulama için UserDetails Servisten kullanıcı bilgilerini sorgulayacağım altyapı katmanı
     private final AuthenticationProvider authenticationProvider;
+    private final AuthenticationFilter authenticationFilter;
 
-    public SecurityConfig(AuthenticationProvider authenticationProvider) {
+    public SecurityConfig(AuthenticationProvider authenticationProvider, AuthenticationFilter authenticationFilter) {
         this.authenticationProvider = authenticationProvider;
+        this.authenticationFilter = authenticationFilter;
     }
 
 
@@ -29,9 +31,13 @@ public class SecurityConfig {
 //        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // Rest servislerde kullanılan session modeli
         http.authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                        .requestMatchers(("/api/v1/auth/**")).permitAll()
+                        .requestMatchers("/api/demo/**").permitAll()
+                        .requestMatchers(("/api/auth/**")).permitAll()
                         .anyRequest().authenticated());
         http.authenticationProvider(authenticationProvider);
+        http.addFilterBefore(authenticationFilter,
+                org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
 

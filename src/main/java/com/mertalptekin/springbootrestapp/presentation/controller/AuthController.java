@@ -8,15 +8,12 @@ import com.mertalptekin.springbootrestapp.domain.entity.User;
 import com.mertalptekin.springbootrestapp.infra.repository.IUserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 // /api/v1/auth izin ver.
 // Kullanıcı oluşturma token üretme, token refresh etme ve benzeri işlemler burada yapılacak.
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("api/auth")
 public class AuthController {
 
 
@@ -28,13 +25,18 @@ public class AuthController {
         this.userRepository = userRepository;
     }
 
+    @GetMapping
+    public String test(){
+        return "Auth Controller is working...";
+    }
+
 
     @PostMapping("token")
     public ResponseEntity<TokenResponse> token(@RequestBody TokenRequest request){
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("register")
+    @PostMapping
     public ResponseEntity<String> register(@RequestBody RegisterRequest request){
 
         User usr = new User();
