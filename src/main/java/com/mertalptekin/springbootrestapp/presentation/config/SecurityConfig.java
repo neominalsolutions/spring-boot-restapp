@@ -1,5 +1,6 @@
 package com.mertalptekin.springbootrestapp.presentation.config;
 
+import com.mertalptekin.springbootrestapp.infra.jwt.JwtService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -26,7 +27,7 @@ public class SecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtService jwtService) throws Exception {
         // web uygulamasında hangi endpointlere login oladan gireceğimiz yöneteceğiz.
         http.csrf(AbstractHttpConfigurer::disable); // Form istekleri www.urlencoded değil application/json bundan dolayı bu ayarı kapattık. Gelenek web uygulamalrındaki güvenlik ayarı.
         // Bunu kaldırınca Post isteklerinde 403 hatası alırız. uygulama keser.
@@ -52,7 +53,7 @@ public class SecurityConfig {
         http.addFilterBefore(authenticationFilter,
                 org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling(exceptionHandler ->
-                exceptionHandler.authenticationEntryPoint(new AuthEntryPoint())
+                exceptionHandler.authenticationEntryPoint(new AuthEntryPoint(jwtService))
         ); // Yetkilendirme hatalarında özel giriş noktası kullanımı
 
         return http.build();
