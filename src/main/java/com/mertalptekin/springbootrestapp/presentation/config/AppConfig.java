@@ -4,6 +4,7 @@ package com.mertalptekin.springbootrestapp.presentation.config;
 import com.mertalptekin.springbootrestapp._demo.springContext.logger.TextLogger;
 import com.mertalptekin.springbootrestapp.domain.service.CustomUserDetailService;
 import com.mertalptekin.springbootrestapp.infra.repository.IUserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +35,11 @@ public class AppConfig {
         return new TextLogger();
     }
 
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
 
     @Bean
