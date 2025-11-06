@@ -26,6 +26,10 @@ public class Product {
     @Column(name = "stock", nullable = false)
     private Integer stock;
 
+    // PK ilişki - FK ilişki
+    @ManyToOne
+    @JoinColumn(name = "category_id") // ürün tablosunda category_id ile ilkişki kurulacak
+    private Category category;
 
 
 }

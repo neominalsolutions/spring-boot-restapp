@@ -46,6 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/swagger-ui.html").permitAll()
+                        .requestMatchers("/api/categories/**").permitAll()
                         .requestMatchers("/api/demo/**").hasAuthority("ROLE_MANAGER")
                         .requestMatchers(("/api/auth/**")).permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
