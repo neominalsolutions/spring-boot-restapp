@@ -9,10 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -58,6 +55,16 @@ public class CategoryController {
               return ResponseEntity.notFound().build();
          }
     }
+
+    // api/categories/5 -> DELETE
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Integer id) {
+        categoryRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    // Products Entity
 
     @GetMapping("/findProductBetweenPrices")
     public ResponseEntity<List<Product>> findProductBetweenPrices(@RequestParam Integer min,@RequestParam Integer max) {
