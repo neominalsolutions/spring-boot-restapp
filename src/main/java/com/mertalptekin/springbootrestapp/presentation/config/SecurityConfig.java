@@ -51,7 +51,9 @@ public class SecurityConfig {
         // JWT Filter ile jwt doğrulama yapacağız.
         http.addFilterBefore(authenticationFilter,
                 org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
-
+        http.exceptionHandling(exceptionHandler ->
+                exceptionHandler.authenticationEntryPoint(new AuthEntryPoint())
+        ); // Yetkilendirme hatalarında özel giriş noktası kullanımı
 
         return http.build();
 
